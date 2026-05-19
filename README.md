@@ -42,6 +42,18 @@ Perlu Tindakan
 ✅ Manager Dashboard
 Tambah Manager / Supervisor / Operator
 
+⚙️ Instalasi
+1. Clone Repo
+git clone https://github.com/username/sigap-kerja.git](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control.git
+
+cd sigap-kerja
+
+2. Jalankan Aplikasi
+ruby sigap.rb
+
+Buka di browser:
+http://localhost:4567
+
 🧑‍💻 Author
 Dibuat sebagai project pembelajaran dan portfolio oleh Andriano.
 
