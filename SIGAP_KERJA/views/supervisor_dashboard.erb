@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100">
+  <div class="min-h-screen p-6">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-semibold">Supervisor Verification Panel</h1>
+      <p class="text-slate-400 text-sm mt-1">
+        Verifikasi Kesiapan Operasional Harian Operator
+      </p>
+    </div>
+
+    <div class="flex gap-3">
+      <a href="#" class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm hover:bg-slate-700">
+        Riwayat Laporan
+      </a>
+      <a href="/" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-semibold hover:bg-white">
+        Logout
+      </a>
+    </div>
+  </div>
+
+  <!-- Card Laporan Operator 1 -->
+  <% (@laporan_operator || []).each do |lapor| %>
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <h3 class="text-lg font-semibold"><%= lapor[:nama_lengkap] %></h3>
+      <p class="text-slate-400 text-sm">Jam Lapor: <%= lapor[:jam] %></p>
+    </div>
+    <span class="text-xs px-3 py-1 rounded-full bg-slate-700">
+      Menunggu Verifikasi
+    </span>
+  </div>
+
+  <div class="mb-4">
+    <p class="text-slate-400 text-sm mb-2">Checklist Kesiapan:</p>
+    <ul class="list-disc ml-6 text-sm space-y-1">
+      <li>Tekanan darah <%= lapor[:tekanan_darah] %></li>
+      <li>APD <%= lapor[:apd] %></li>
+      <li>Kondisi fisik <%= lapor[:kondisi_fisik] %></li>
+      <li>Kondisi mental <%= lapor[:kondisi_mental] %></li>
+    </ul>
+  </div>
+
+  <div class="mb-4">
+    <p class="text-slate-400 text-sm mb-2">Foto Bukti:</p>
+    <img src="/foto/laporan_operator/<%= lapor[:id] %>"
+         class="w-48 rounded-lg border border-slate-700"
+         onclick="previewImage(this.src)" />
+  </div>
+  <div class="space-y-4">
+    <div>
+      <label class="text-sm text-slate-400">Catatan / Perintah Perbaikan</label>
+      <textarea rows="2"
+        class="w-full mt-2 px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"></textarea>
+    </div>
+
+    <div class="flex gap-4">
+      <button class="px-6 py-2 rounded-lg bg-green-500 text-black font-semibold hover:bg-green-400">
+        Siap Operasi
+      </button>
+
+      <button class="px-6 py-2 rounded-lg bg-yellow-500 text-black font-semibold hover:bg-yellow-400">
+        Perlu Tindakan
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<% end %>
+
+</div>
+</body>
+</html>
+<!-- IMAGE MODAL -->
+<div id="imgModal" class="modal" onclick="closeModal()">
+<img id="modalImg">
+</div>
+<script>
+function previewImage(src){
+document.getElementById('imgModal').style.display = "block";
+document.getElementById('modalImg').src = src;
+}
+
+function closeModal(){
+document.getElementById('imgModal').style.display = "none";
+}
+</script>
+
+<script>
+function filterKategori(kat){
+const rows = document.querySelectorAll("tr[data-kategori]");
+
+rows.forEach(row => {
+if(kat === 'Semua'){
+row.style.display = "";
+} else {
+if(row.getAttribute('data-kategori') === kat){
+row.style.display = "";
+} else {
+row.style.display = "none";
+}
+}
+});
+}
+</script>

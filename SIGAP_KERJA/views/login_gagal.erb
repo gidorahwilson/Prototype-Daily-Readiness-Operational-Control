@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gagal Login - SIGAP Kerja</title>
+<style>
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    font-family:Arial, Helvetica, sans-serif;
+    color:white;
+  }
+
+  .card{
+    background:#0b1220;
+    padding:40px;
+    width:420px;
+    border-radius:12px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.6);
+    text-align:center;
+  }
+
+  .icon{
+    font-size:60px;
+    margin-bottom:10px;
+    color:#ef4444;
+  }
+
+  h2{
+    margin:10px 0;
+  }
+
+  p{
+    color:#cbd5e1;
+    font-size:14px;
+    line-height:1.6;
+  }
+
+  .btn{
+    display:block;
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+  }
+
+  .btn-login{
+    background:#2563eb;
+    color:white;
+  }
+
+  .btn-login:hover{
+    background:#1d4ed8;
+  }
+
+  .btn-wa{
+    background:#16a34a;
+    color:white;
+  }
+
+  .btn-wa:hover{
+    background:#15803d;
+  }
+
+  .note{
+    margin-top:15px;
+    font-size:12px;
+    color:#94a3b8;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon">⚠️</div>
+  <h2>Login Gagal</h2>
+  <p>
+    Email salah.<br/>
+    Atau Anda <b>tidak terdaftar sebagai Operator / Supervisor / Manager</b> di sistem.
+  </p>
+
+  <a href="/" class="btn btn-login">Kembali ke Halaman Login</a>
+
+  <a href="https://wa.me/+6282147612829?text=Halo%20Admin,%20saya%20tidak%20bisa%20login%20ke%20SIGAP%20Kerja"
+     class="btn btn-wa" target="_blank">
+     Hubungi Administrator
+  </a>
+
+  <div class="note">
+    Jika merasa sudah terdaftar, hubungi administrator sistem.
+  </div>
+</div>
+
+</body>
+</html>

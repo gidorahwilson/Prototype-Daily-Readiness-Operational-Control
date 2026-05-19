@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100">
+
+<div class="min-h-screen p-6 space-y-12">
+
+  <style>
+  .thumb{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #334155;
+  }
+
+  .modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    justify-content:center;
+    align-items:center;
+  }
+
+  .modal img{
+    max-width:80%;
+    max-height:80%;
+    border-radius:12px;
+  }
+  </style>
+
+  <!-- HEADER -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-semibold">Manager Monitoring Dashboard</h1>
+      <p class="text-slate-400 text-sm">Monitoring, Registrasi Operator, dan Data Personel</p>
+    </div>
+    <a href="/export_pdf" class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm hover:bg-slate-700"">
+      Export Pdf
+    </a>
+    <a href="/" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-semibold hover:bg-white">
+      Logout
+    </a>
+  </div>
+
+  <!-- RINGKASAN -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400 text-sm">Total Operator</p>
+      <h2 class="text-3xl font-bold mt-2"><%= @operator %><br></h2>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400 text-sm">Hadir Hari Ini</p>
+      <h2 class="text-3xl font-bold mt-2"><%= @status_hadir %><br></h2>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400 text-sm">Izin</p>
+      <h2 class="text-3xl font-bold mt-2"><%= @status_izin %><br></h2>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400 text-sm">Cuti</p>
+      <h2 class="text-3xl font-bold mt-2"><%= @status_cuti %><br></h2>
+    </div>
+  </div>
+
+  <!-- TABEL MONITORING -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <h2 class="text-xl font-semibold mb-6">Status Kesiapan Harian</h2>
+    <input
+       type="text"
+       id="searchOperator"
+       placeholder="Cari nama operator..."
+       class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm focus:outline-none"
+     />
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 border-b border-slate-800">
+          <th class="text-left py-3">Nama</th>
+          <th class="text-left py-3">Status</th>
+          <th class="text-left py-3">Jam Lapor</th>
+          <th class="text-left py-3">Catatan</th>
+        </tr>
+      </thead>
+      <tbody id="tabelOperator">
+        <% (@laporan_operator || []).each do |lapor| %>
+        <tr class="border-b border-slate-800">
+          <td class="py-3"><%= lapor[:nama_lengkap] %></td>
+          <td class="py-3"><%= lapor[:status] %></td>
+          <td class="py-3"><%= lapor[:jam] %></td>
+          <td class="py-3 text-slate-400"><%= lapor[:catatan] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <script>
+document.getElementById("searchOperator").addEventListener("keyup", function () {
+  let keyword = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#tabelOperator tr");
+
+  rows.forEach(row => {
+    let nama = row.children[0].textContent.toLowerCase();
+
+    if (nama.includes(keyword)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+});
+</script>
+
+  <!-- REGISTRASI OPERATOR,SUPERVISOR,MANAGER BARU -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <h2 class="text-xl font-semibold mb-6">Registrasi Operator, Supervisor, Manager Baru</h2>
+
+    <form action="/manager" method="POST" enctype="multipart/form-data" class="grid md:grid-cols-3 gap-4">
+
+  <input type="text" name="nama" placeholder="Nama lengkap" required
+    class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"/>
+
+  <input type="email" name="email" placeholder="Email" required
+    class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"/>
+
+  <select name="shift" required class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm">
+    <option value="">Pilih Shift</option>
+    <option>Pagi</option>
+    <option>Siang</option>
+    <option>Malam</option>
+  </select>
+
+  <select name="status" required class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm">
+    <option value="">Pilih Status</option>
+    <option>aktif</option>
+    <option>nonaktif</option>
+  </select>
+
+  <select name="role" required class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm">
+    <option value="">Pilih Role</option>
+    <option>Manager</option>
+    <option>Supervisor</option>
+    <option>Operator</option>
+  </select>
+
+  <div>
+    <label class="text-sm text-slate-400">Upload Foto</label>
+    <input type="file" name="foto" required accept="image/*"
+      class="mt-2 block w-full text-sm text-slate-300"/>
+  </div>
+
+  <button type="submit"
+    class="md:col-span-3 bg-slate-200 text-slate-900 py-2 rounded-lg font-semibold hover:bg-white">
+    Daftarkan
+  </button>
+</form>
+</div>
+
+  <!-- DATA MANAGER TERDAFTAR -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <h2 class="text-xl font-semibold mb-6">Manager Terdaftar</h2>
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 border-b border-slate-800">
+          <th class="text-left py-3">Nama</th>
+          <th class="text-left py-3">Foto</th>
+          <th class="text-left py-3">Email</th>
+          <th class="text-left py-3">Shift</th>
+          <th class="text-left py-3">Status Akun</th>
+          <th class="text-left py-3">Status keaktifan</th>
+          <th class="text-left py-3">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+          <!-- DATA ( DIGANTI BACKEND SINATRA) -->
+        <% (@managers || []).each do |m| %>
+         <tr>
+              <td><%= m[:nama] %></td>
+              <td><img src="/foto/manager/<%= m[:id] %>"
+                   class="thumb"
+                   onclick="previewImage(this.src)">
+              </td>
+              <td><%= m[:email] %></td>
+              <td><%= m[:shift] %></td>
+              <td><%= m[:role] %></td>
+              <td><%= m[:status] %></td>
+              <td>
+                <a href="/hapus_manager/<%= m[:id] %>"><button class="btn hapus">Hapus</button></a>
+              </td>
+          </tr>
+        <% end %>
+        <!-- IMAGE MODAL -->
+<div id="imgModal" class="modal" onclick="closeModal()">
+<img id="modalImg">
+</div>
+<script>
+function previewImage(src){
+document.getElementById('imgModal').style.display = "block";
+document.getElementById('modalImg').src = src;
+}
+
+function closeModal(){
+document.getElementById('imgModal').style.display = "none";
+}
+</script>
+
+<script>
+function filterKategori(kat){
+const rows = document.querySelectorAll("tr[data-kategori]");
+
+rows.forEach(row => {
+if(kat === 'Semua'){
+row.style.display = "";
+} else {
+if(row.getAttribute('data-kategori') === kat){
+  row.style.display = "";
+} else {
+  row.style.display = "none";
+}
+}
+});
+}
+</script>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DATA SUPERVISOR TERDAFTAR -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <h2 class="text-xl font-semibold mb-6">Supervisor Terdaftar</h2>
+    <input
+       type="text"
+       placeholder="Cari nama supervisor..."
+       class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm focus:outline-none"
+     />
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 border-b border-slate-800">
+          <th class="text-left py-3">Nama</th>
+          <th class="text-left py-3">Foto</th>
+          <th class="text-left py-3">Email</th>
+          <th class="text-left py-3">Shift</th>
+          <th class="text-left py-3">Status Akun</th>
+          <th class="text-left py-3">Status keaktifan</th>
+          <th class="text-left py-3">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+          <!-- DATA ( DIGANTI BACKEND SINATRA) -->
+       <% (@supervisors || []).each do |s| %>
+         <tr>
+              <td><%= s[:nama] %></td>
+              <td><img src="/foto/supervisor/<%= s[:id] %>"
+                   class="thumb"
+                   onclick="previewImage(this.src)">
+              </td>
+              <td><%= s[:email] %></td>
+              <td><%= s[:shift] %></td>
+              <td><%= s[:role] %></td>
+              <td><%= s[:status] %></td>
+              <td>
+                <a href="/hapus_supervisor/<%= s[:id] %>"><button class="btn hapus">Hapus</button></a>
+              </td>
+          </tr>
+        <% end %>
+        <!-- IMAGE MODAL -->
+<div id="imgModal" class="modal" onclick="closeModal()">
+<img id="modalImg">
+</div>
+<script>
+function previewImage(src){
+document.getElementById('imgModal').style.display = "block";
+document.getElementById('modalImg').src = src;
+}
+
+function closeModal(){
+document.getElementById('imgModal').style.display = "none";
+}
+</script>
+
+<script>
+function filterKategori(kat){
+const rows = document.querySelectorAll("tr[data-kategori]");
+
+rows.forEach(row => {
+if(kat === 'Semua'){
+row.style.display = "";
+} else {
+if(row.getAttribute('data-kategori') === kat){
+  row.style.display = "";
+} else {
+  row.style.display = "none";
+}
+}
+});
+}
+</script>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DATA SEMUA OPERATOR TERDAFTAR -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <h2 class="text-xl font-semibold mb-6">Data Operator Terdaftar</h2>
+    <input
+       type="text"
+       id="cariOperator"
+       placeholder="Cari nama operator..."
+       class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm focus:outline-none"
+     />
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-slate-400 border-b border-slate-800">
+          <th class="text-left py-3">Nama</th>
+          <th class="text-left py-3">Foto</th>
+          <th class="text-left py-3">Email</th>
+          <th class="text-left py-3">Shift</th>
+          <th class="text-left py-3">Status Akun</th>
+          <th class="text-left py-3">Status keaktifan</th>
+          <th class="text-left py-3">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tabelOperator">
+          <!-- DATA ( DIGANTI BACKEND SINATRA) -->
+       <% (@operators || []).each do |o| %>
+         <tr>
+              <td><%= o[:nama] %></td>
+              <td><img src="/foto/operator/<%= o[:id] %>"
+                   class="thumb"
+                   onclick="previewImage(this.src)">
+              </td>
+              <td><%= o[:email] %></td>
+              <td><%= o[:shift] %></td>
+              <td><%= o[:role] %></td>
+              <td><%= o[:status] %></td>
+              <td>
+                <a href="/hapus_operator/<%= o[:id] %>"><button class="btn hapus">Hapus</button></a>
+              </td>
+          </tr>
+        <% end %>
+<script>
+document.getElementById("cariOperator").addEventListener("keyup", function () {
+  let keyword = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#tabelOperator tr");
+
+  rows.forEach(row => {
+    let nama = row.children[0].textContent.toLowerCase();
+
+    if (nama.includes(keyword)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+});
+</script>
+
+        <!-- IMAGE MODAL -->
+<div id="imgModal" class="modal" onclick="closeModal()">
+<img id="modalImg">
+</div>
+<script>
+function previewImage(src){
+document.getElementById('imgModal').style.display = "block";
+document.getElementById('modalImg').src = src;
+}
+
+function closeModal(){
+document.getElementById('imgModal').style.display = "none";
+}
+</script>
+
+<script>
+function filterKategori(kat){
+const rows = document.querySelectorAll("tr[data-kategori]");
+
+rows.forEach(row => {
+if(kat === 'Semua'){
+row.style.display = "";
+} else {
+if(row.getAttribute('data-kategori') === kat){
+  row.style.display = "";
+} else {
+  row.style.display = "none";
+}
+}
+});
+}
+</script>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

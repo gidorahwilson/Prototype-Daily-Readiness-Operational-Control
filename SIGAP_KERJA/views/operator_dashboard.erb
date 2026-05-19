@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100">
+<div class="min-h-screen p-6">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-semibold">Operator Daily Readiness Form</h1>
+      <p class="text-slate-400 text-sm mt-1">
+        Form kesiapan kerja harian sebelum operasional dimulai
+      </p>
+    </div>
+
+    <div class="flex gap-3">
+      <a href="/" class="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-semibold hover:bg-white">
+        Logout
+      </a>
+    </div>
+  </div>
+
+  <!-- Form Laporan -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-10">
+
+    <form action="/operator" method="post" enctype="multipart/form-data" class="space-y-6">
+
+      <!-- Checklist -->
+      <div class="space-y-4">
+        <input type="text" name="nama" placeholder="Nama lengkap" required
+          class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"/>
+
+        <div>
+          <label class="text-white">Tekanan Darah</label>
+          <select name="tekanan_darah" required
+            class="w-full p-2 rounded bg-white text-black border border-gray-400">
+            <option value="">-- pilih --</option>
+            <option>Normal</option>
+            <option>Tidak Normal</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-white">APD</label>
+          <select name="apd" required
+            class="w-full p-2 rounded bg-white text-black border border-gray-400">
+            <option value="">-- pilih --</option>
+            <option>Lengkap</option>
+            <option>Tidak Lengkap</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-white">Kondisi Fisik</label>
+          <select name="kondisi_fisik" required
+            class="w-full p-2 rounded bg-white text-black border border-gray-400">
+            <option value="">-- pilih --</option>
+            <option>Fit</option>
+            <option>Tidak Fit</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-white">Kondisi Mental</label>
+          <select name="kondisi_mental" required
+            class="w-full p-2 rounded bg-white text-black border border-gray-400">
+            <option value="">-- pilih --</option>
+            <option>Baik</option>
+            <option>Tidak Baik</option>
+          </select>
+        </div>
+      </div>
+
+      <select name="status" required class="px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm">
+        <option value="">Pilih Status</option>
+        <option>Hadir</option>
+        <option>Izin</option>
+        <option>Cuti</option>
+      </select>
+
+      <!-- Upload Foto -->
+      <div>
+        <label class="text-sm text-slate-400">Upload Foto Kondisi Area</label>
+        <input type="file" name="foto" accept="image/*"
+          class="mt-2 block w-full text-sm text-slate-300
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-lg file:border-0
+          file:bg-slate-200 file:text-slate-900
+          hover:file:bg-white"/>
+      </div>
+
+      <!-- Catatan -->
+      <div>
+        <label class="text-sm text-slate-400">Catatan Jika Ada Masalah</label>
+        <textarea name="catatan" required rows="3"
+          class="w-full mt-2 px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm"></textarea>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+        class="w-full py-3 rounded-lg bg-slate-200 text-slate-900 font-semibold hover:bg-white">
+        Kirim Laporan Kesiapan
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Status Laporan Terakhir -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <h2 class="text-xl font-semibold mb-4">Status Laporan</h2>
+
+    <% if @laporan_terakhir %>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-400">
+            Tanggal: <%= @laporan_terakhir[:tanggal] %>
+          </p>
+          <p class="mt-2">
+            Status:
+            <span class="px-3 py-1 rounded-full text-xs
+              <%= @laporan_terakhir[:status] == 'Disetujui' ? 'bg-green-600' : 'bg-yellow-500 text-black' %>">
+              <%= @laporan_terakhir[:status] %>
+            </span>
+          </p>
+          <p class="mt-2 text-slate-400 text-sm">
+            Catatan Supervisor: <%= @laporan_terakhir[:catatan] %>
+          </p>
+        </div>
+      </div>
+    <% else %>
+      <p class="text-slate-400 text-sm">Belum ada laporan hari ini.</p>
+    <% end %>
+  </div>
+
+</div>
+</body>
+</html>
