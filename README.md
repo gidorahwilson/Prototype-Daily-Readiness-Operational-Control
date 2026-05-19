@@ -46,7 +46,7 @@ Tambah Manager / Supervisor / Operator
 1. Clone Repo
 git clone https://github.com/username/sigap-kerja.git](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control.git
 
-cd sigap-kerja
+cd SIGAP_KERJA
 
 2. Jalankan Aplikasi
 ruby sigap.rb
