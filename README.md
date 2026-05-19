@@ -57,4 +57,8 @@ http://localhost:4567
 🧑‍💻 Author
 Dibuat sebagai project pembelajaran dan portfolio oleh Andriano.
 
+# Screenshot
 ![PORTFOLIO](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control/blob/main/SIGAP_KERJA/Screenshot%20from%202026-05-19%2010-35-57.png)
+![PORTFOLIO](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control/blob/main/SIGAP_KERJA/Screenshot%20from%202026-05-19%2011-20-27.png)
+![PORTFOLIO](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control/blob/main/SIGAP_KERJA/Screenshot%20from%202026-05-19%2011-20-49.png)
+![PORTFOLIO](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control/blob/main/SIGAP_KERJA/Screenshot%20from%202026-05-19%2011-21-00.png)
