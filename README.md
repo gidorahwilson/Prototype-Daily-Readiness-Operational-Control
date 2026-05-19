@@ -44,6 +44,5 @@ Tambah Manager / Supervisor / Operator
 
 🧑‍💻 Author
 Dibuat sebagai project pembelajaran dan portfolio oleh Andriano.
-Upload foto user
-Hapus user
-Monitoring jumlah user
+
+![PORTFOLIO](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control/blob/main/SIGAP_KERJA/Screenshot%20from%202026-05-19%2010-35-57.png)
