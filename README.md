@@ -44,7 +44,7 @@ Tambah Manager / Supervisor / Operator
 
 ⚙️ Instalasi
 1. Clone Repo
-git clone https://github.com/username/sigap-kerja.git](https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control.git
+git clone https://github.com/gidorahwilson/Prototype-Daily-Readiness-Operational-Control.git
 
 cd SIGAP_KERJA
 
